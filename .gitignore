@@ -9384,3 +9384,6 @@ flextest/organizations/migrations/__pycache__/0007_alter_user_managers.cpython-3
 flextest/organizations/migrations/__pycache__/0008_alter_user_managers_alter_user_email_alter_user_icon_and_more.cpython-310.pyc
 flextest/organizations/migrations/__pycache__/0009_alter_user_managers.cpython-310.pyc
 flextest/uploads/users/cg_-VDius8E.jpg
+flextest/uploads/users/Mulham.jpg
+flextest/organizations/__pycache__/serializers.cpython-310.pyc
+flextest/organizations/migrations/__pycache__/0010_alter_user_icon_alter_user_organizations.cpython-310.pyc
