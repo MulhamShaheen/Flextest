@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
@@ -9,7 +8,6 @@ import os
 
 
 
-# Create your models here.
 class Organization(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
@@ -17,9 +15,6 @@ class Organization(models.Model):
     def __str__(self):
         return self.name
     
-    
-    
-
     
 class User(AbstractUser):
     
@@ -53,11 +48,11 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['first_name','last_name']
     
     def save(self,*args, **kwargs):
-        super().save()  # saving image first
+        super().save()  
         
-        if(self.icon ):
+        if(self.icon):
             
-            img = Image.open(self.icon.path) # Open icon using self
+            img = Image.open(self.icon.path) 
 
             if img.height > 200 or img.width > 200:
                 new_img = (200, 200)
