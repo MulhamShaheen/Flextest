@@ -50,7 +50,7 @@ def regester(request):
     
     
 @api_view(['POST'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def edit_profile(request):
     data = JSONParser().parse(request)
     user = request.user
