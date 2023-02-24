@@ -4,3 +4,4 @@ django-environ
 gunicorn
 gevent
 Pillow
+djangorestframework-simplejwt
