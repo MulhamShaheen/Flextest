@@ -46,21 +46,24 @@ class User(AbstractUser):
     )
     
     phone = models.CharField(validators=[phone_regex], max_length=12, blank=True)
-    icon = models.ImageField(upload_to=path_and_rename,  blank=True)
+    icon = models.ImageField(upload_to=path_and_rename, null=True, blank=True)
     organizations = models.ManyToManyField(Organization, blank=True)
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['first_name','last_name']
     
-    def save(self):
+    def save(self,*args, **kwargs):
         super().save()  # saving image first
+        
+        if(self.icon ):
+            
+            img = Image.open(self.icon.path) # Open icon using self
 
-        img = Image.open(self.icon.path) # Open icon using self
-
-        if img.height > 200 or img.width > 200:
-            new_img = (200, 200)
-            img.thumbnail(new_img)
-            img.save(self.icon.path)
+            if img.height > 200 or img.width > 200:
+                new_img = (200, 200)
+                img.thumbnail(new_img)
+                img.save(self.icon.path)
+                
     
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"

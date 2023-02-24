@@ -11,10 +11,13 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import TokenAuthentication
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
+# from rest_framework_simplejwt.authentication import JWTAuthentication
+
+
 
 
 class Autherization(APIView):
-    authentication_classes = (TokenAuthentication,)
     permission_classes = (AllowAny,)
     def post(self, request):
         data = JSONParser().parse(request)
@@ -25,12 +28,16 @@ class Autherization(APIView):
         
         if user is not None:
             login(request, user)
-            try:
-                token = Token.objects.get(user_id=user.id)
-
-            except Token.DoesNotExist:
-                token = Token.objects.create(user=user)
-            return Response({"data": str(user),"token":token.key}, status=200)
+            
+            refresh = RefreshToken.for_user(user)
+            
+            return Response({
+                
+                        'data': str(user),
+                        'refresh': str(refresh),
+                        'access': str(refresh.access_token),
+                             
+                        }, status=200)
         # Redirect to a success page.
         
         else:
@@ -43,8 +50,14 @@ def regester(request):
     data = JSONParser().parse(request)
     serializer = UserSerializer(data=data)
     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
+        user = serializer.save()
+        login(request, user)
+        refresh = RefreshToken.for_user(user)
+        
+        return Response({
+                    'data':serializer.data, 
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),}, status=201)
     else:
         return Response(serializer.errors, status=400)
     
