@@ -109,7 +109,7 @@ password: 123123123
 
 Метод возврощается список всех пользователей
 
-```
+```json
 [
     {
         "email": "admin@gmail.com",
@@ -146,7 +146,7 @@ password: 123123123
 
 Метод возврощается пользователя с идентификатором id
 
-```
+```json
 {
     "email": "mul@gmail.com",
     "password": "pbkdf2_sha256$390000$RPDc7lqpSIUAJEjUrJ2l0k$ht9bZGpIqAEuAbYy0duIclhPjdC73KX/GWi1dxbpMEE=",
@@ -171,7 +171,7 @@ password: 123123123
 
 Метод создания организации
 
-```
+```json
 {
     "name": "test",
     "description":"12sa dasdasd asd "
