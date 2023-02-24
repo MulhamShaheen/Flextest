@@ -9387,3 +9387,7 @@ flextest/uploads/users/cg_-VDius8E.jpg
 flextest/uploads/users/Mulham.jpg
 flextest/organizations/__pycache__/serializers.cpython-310.pyc
 flextest/organizations/migrations/__pycache__/0010_alter_user_icon_alter_user_organizations.cpython-310.pyc
+flextest/organizations/migrations/__pycache__/0011_alter_user_icon.cpython-310.pyc
+flextest/organizations/migrations/__pycache__/0012_alter_user_icon.cpython-310.pyc
+flextest/organizations/migrations/__pycache__/0013_alter_user_icon.cpython-310.pyc
+flextest/uploads/users/2.jpg

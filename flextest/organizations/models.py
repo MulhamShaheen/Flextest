@@ -4,16 +4,36 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
+from PIL import Image
+import os
+
+
 
 # Create your models here.
 class Organization(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
     
+    def __str__(self):
+        return self.name
+    
+    
     
 
     
 class User(AbstractUser):
+    
+    
+    def path_and_rename(instance, filename):
+        
+        ext = filename.split('.')[-1]
+
+        filename = '{}.{}'.format(instance.pk, ext)
+
+        return os.path.join("uploads/users/", filename)
+
+    
+    
     object = CustomUserManager()
     phone_regex = RegexValidator(regex=r'^\+?1?\d{11}$',
                                  message="Не корректный формат номера телефона")
@@ -24,16 +44,27 @@ class User(AbstractUser):
             max_length=255,
             unique=True,
     )
+    
     phone = models.CharField(validators=[phone_regex], max_length=12, blank=True)
-    icon = models.ImageField(upload_to="uploads/users/", blank=True)
+    icon = models.ImageField(upload_to=path_and_rename,  blank=True)
     organizations = models.ManyToManyField(Organization, blank=True)
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     
+    def save(self):
+        super().save()  # saving image first
+
+        img = Image.open(self.icon.path) # Open icon using self
+
+        if img.height > 200 or img.width > 200:
+            new_img = (200, 200)
+            img.thumbnail(new_img)
+            img.save(self.icon.path)
+    
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
     
-    # def get_organizations(self):
+    
         
 
